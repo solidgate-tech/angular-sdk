@@ -1,0 +1,12 @@
+{
+  "name": "@solidgate/angular-sdk",
+  "version": "0.0.1",
+  "peerDependencies": {
+    "@angular/common": "^13.2.0",
+    "@angular/core": "^13.2.0"
+  },
+  "dependencies": {
+    "@solidgate/client-sdk-loader": "file:/../../../../client-sdk-loader",
+    "tslib": "^2.3.0"
+  }
+}

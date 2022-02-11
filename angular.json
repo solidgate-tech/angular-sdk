@@ -3,5 +3,140 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-  }
+    "@solidgate/angular-sdk": {
+      "projectType": "library",
+      "root": "projects/solidgate/angular-sdk",
+      "sourceRoot": "projects/solidgate/angular-sdk/src",
+      "prefix": "ngx",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-angular:ng-packagr",
+          "options": {
+            "project": "projects/solidgate/angular-sdk/ng-package.json"
+          },
+          "configurations": {
+            "production": {
+              "tsConfig": "projects/solidgate/angular-sdk/tsconfig.lib.prod.json"
+            },
+            "development": {
+              "tsConfig": "projects/solidgate/angular-sdk/tsconfig.lib.json"
+            }
+          },
+          "defaultConfiguration": "production"
+        },
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "main": "projects/solidgate/angular-sdk/src/test.ts",
+            "tsConfig": "projects/solidgate/angular-sdk/tsconfig.spec.json",
+            "karmaConfig": "projects/solidgate/angular-sdk/karma.conf.js"
+          }
+        }
+      }
+    },
+    "@solidgate/example": {
+      "projectType": "application",
+      "schematics": {
+        "@schematics/angular:component": {
+          "style": "scss"
+        },
+        "@schematics/angular:application": {
+          "strict": true
+        }
+      },
+      "root": "projects/solidgate/example",
+      "sourceRoot": "projects/solidgate/example/src",
+      "prefix": "app",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-angular:browser",
+          "options": {
+            "outputPath": "dist/example",
+            "index": "projects/solidgate/example/src/index.html",
+            "main": "projects/solidgate/example/src/main.ts",
+            "polyfills": "projects/solidgate/example/src/polyfills.ts",
+            "tsConfig": "projects/solidgate/example/tsconfig.app.json",
+            "inlineStyleLanguage": "scss",
+            "assets": [
+              "projects/solidgate/example/src/favicon.ico",
+              "projects/solidgate/example/src/assets"
+            ],
+            "styles": [
+              "projects/solidgate/example/src/styles.scss"
+            ],
+            "scripts": []
+          },
+          "configurations": {
+            "production": {
+              "budgets": [
+                {
+                  "type": "initial",
+                  "maximumWarning": "500kb",
+                  "maximumError": "1mb"
+                },
+                {
+                  "type": "anyComponentStyle",
+                  "maximumWarning": "2kb",
+                  "maximumError": "4kb"
+                }
+              ],
+              "fileReplacements": [
+                {
+                  "replace": "projects/solidgate/example/src/environments/environment.ts",
+                  "with": "projects/solidgate/example/src/environments/environment.prod.ts"
+                }
+              ],
+              "outputHashing": "all"
+            },
+            "development": {
+              "buildOptimizer": false,
+              "optimization": false,
+              "vendorChunk": true,
+              "extractLicenses": false,
+              "sourceMap": true,
+              "namedChunks": true
+            }
+          },
+          "defaultConfiguration": "production"
+        },
+        "serve": {
+          "builder": "@angular-devkit/build-angular:dev-server",
+          "configurations": {
+            "production": {
+              "browserTarget": "@solidgate/example:build:production"
+            },
+            "development": {
+              "browserTarget": "@solidgate/example:build:development"
+            }
+          },
+          "defaultConfiguration": "development"
+        },
+        "extract-i18n": {
+          "builder": "@angular-devkit/build-angular:extract-i18n",
+          "options": {
+            "browserTarget": "@solidgate/example:build"
+          }
+        },
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "main": "projects/solidgate/example/src/test.ts",
+            "polyfills": "projects/solidgate/example/src/polyfills.ts",
+            "tsConfig": "projects/solidgate/example/tsconfig.spec.json",
+            "karmaConfig": "projects/solidgate/example/karma.conf.js",
+            "inlineStyleLanguage": "scss",
+            "assets": [
+              "projects/solidgate/example/src/favicon.ico",
+              "projects/solidgate/example/src/assets"
+            ],
+            "styles": [
+              "projects/solidgate/example/src/styles.scss"
+            ],
+            "scripts": []
+          }
+        }
+      }
+    }
+  },
+  "defaultProject": "@solidgate/angular-sdk"
 }

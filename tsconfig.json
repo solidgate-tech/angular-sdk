@@ -2,6 +2,12 @@
 {
   "compileOnSave": false,
   "compilerOptions": {
+    "paths": {
+      "@solidgate/angular-sdk": [
+        "dist/solidgate/angular-sdk/solidgate-angular-sdk",
+        "dist/solidgate/angular-sdk"
+      ]
+    },
     "baseUrl": "./",
     "outDir": "./dist/out-tsc",
     "forceConsistentCasingInFileNames": true,
