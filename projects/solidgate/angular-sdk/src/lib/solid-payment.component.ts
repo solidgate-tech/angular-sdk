@@ -139,6 +139,7 @@ export class SolidPaymentComponent implements AfterViewInit, OnDestroy, ClientSd
     const config: InitConfig = {
       merchantData: this.merchantData,
       formParams: this.formParams,
+      styles: this.styles
     }
 
     this.appendIframeParams(config)
