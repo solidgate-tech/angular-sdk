@@ -177,7 +177,7 @@ export class SolidPaymentComponent implements AfterViewInit, OnDestroy, ClientSd
         console.warn(`Id attribute "${container.id}" of container for ${key} will be overriden`)
       }
 
-      payButtonParams.containerId = `${this.id}_google_pay`
+      payButtonParams.containerId = `${this.id}_${key}`
       container.id = payButtonParams.containerId
     }
 
