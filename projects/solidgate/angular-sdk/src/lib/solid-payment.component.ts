@@ -95,10 +95,7 @@ export class SolidPaymentComponent implements AfterViewInit, OnDestroy, ClientSd
     this.subscription.add(
       SolidPaymentComponent
         .Sdk$
-        .subscribe((sdk) => this
-          .zone
-          .runOutsideAngular(() => this.initForm(sdk))
-        )
+        .subscribe((sdk) => this.initForm(sdk))
     )
   }
 
@@ -115,19 +112,23 @@ export class SolidPaymentComponent implements AfterViewInit, OnDestroy, ClientSd
       this.form = sdk.init(this.initConfig)
     })
 
-    this.readyPaymentInstance.emit(this.form as ClientSdkInstance)
+    if (!this.form) {
+      return
+    }
 
-    this.form?.on(MessageType.Mounted, e => this.mounted.emit(e.data))
-    this.form?.on(MessageType.Error, e => this.error.emit(e.data))
-    this.form?.on(MessageType.Fail, e => this.fail.emit(e.data))
-    this.form?.on(MessageType.OrderStatus, e => this.orderStatus.emit(e.data))
-    this.form?.on(MessageType.Resize, e => this.resize.emit(e.data))
-    this.form?.on(MessageType.Interaction, e => this.interaction.emit(e.data))
-    this.form?.on(MessageType.Success, e => this.success.emit(e.data))
-    this.form?.on(MessageType.Submit, e => this.submit.emit(e.data))
-    this.form?.on(MessageType.Redirect, e => this.formRedirect.emit(e.data))
-    this.form?.on(MessageType.Verify, e => this.verify.emit(e.data))
-    this.form?.on(MessageType.CustomStylesAppended, e => this.customStylesAppended.emit(e.data))
+    this.readyPaymentInstance.emit(this.form)
+
+    this.form.on(MessageType.Mounted, e => this.mounted.emit(e.data))
+    this.form.on(MessageType.Error, e => this.error.emit(e.data))
+    this.form.on(MessageType.Fail, e => this.fail.emit(e.data))
+    this.form.on(MessageType.OrderStatus, e => this.orderStatus.emit(e.data))
+    this.form.on(MessageType.Resize, e => this.resize.emit(e.data))
+    this.form.on(MessageType.Interaction, e => this.interaction.emit(e.data))
+    this.form.on(MessageType.Success, e => this.success.emit(e.data))
+    this.form.on(MessageType.Submit, e => this.submit.emit(e.data))
+    this.form.on(MessageType.Redirect, e => this.formRedirect.emit(e.data))
+    this.form.on(MessageType.Verify, e => this.verify.emit(e.data))
+    this.form.on(MessageType.CustomStylesAppended, e => this.customStylesAppended.emit(e.data))
   }
 
   private get initConfig(): InitConfig {
@@ -141,8 +142,8 @@ export class SolidPaymentComponent implements AfterViewInit, OnDestroy, ClientSd
     }
 
     this.appendIframeParams(config)
-    this.appendGooglePayButtonParams(config)
-    this.appendApplePayButtonParams(config)
+    this.appendPayButtonParams(config, 'googlePayButtonParams', this.googlePayContainer)
+    this.appendPayButtonParams(config, 'applePayButtonParams', this.applePayContainer)
 
     return config
   }
@@ -158,48 +159,30 @@ export class SolidPaymentComponent implements AfterViewInit, OnDestroy, ClientSd
     }
   }
 
-  private appendGooglePayButtonParams(config: InitConfig): void {
-    const googlePayButtonParams = {
-      ...(this.googlePayButtonParams || {})
-    } as NonNullable<InitConfig['googlePayButtonParams']>
+  private appendPayButtonParams<T extends 'googlePayButtonParams' | 'applePayButtonParams'>(
+    config: InitConfig,
+    key: T,
+    container: HTMLElement | undefined
+  ) {
+    const payButtonParams = {
+      ...(config[key] || {})
+    } as NonNullable<InitConfig[T]>
 
-    if (googlePayButtonParams.containerId) {
-      delete googlePayButtonParams.containerId
+    if (payButtonParams.containerId) {
+      delete payButtonParams.containerId
     }
 
-    if (this.googlePayContainer) {
-      if (this.googlePayContainer.id) {
-        console.warn(`Id attribute "${this.googlePayContainer.id}" of GooglePay container will be overriden`)
+    if (container) {
+      if (container.id) {
+        console.warn(`Id attribute "${container.id}" of GooglePay container will be overriden`)
       }
 
-      googlePayButtonParams.containerId = `${this.id}_google_pay`
-      this.googlePayContainer.id = googlePayButtonParams.containerId
+      payButtonParams.containerId = `${this.id}_google_pay`
+      container.id = payButtonParams.containerId
     }
 
-    if (Object.keys(googlePayButtonParams).length) {
-      config.googlePayButtonParams = googlePayButtonParams
-    }
-  }
-
-  private appendApplePayButtonParams(config: InitConfig): void {
-    const applePayButtonParams = {
-      ...(this.applePayButtonParams || {})
-    } as NonNullable<InitConfig['applePayButtonParams']>
-
-    if (applePayButtonParams.containerId) {
-      delete applePayButtonParams.containerId
-    }
-
-    if (this.applePayContainer) {
-      if (this.applePayContainer.id) {
-        console.warn(`Id attribute "${this.applePayContainer.id}" of ApplePay container will be overriden`)
-      }
-      applePayButtonParams.containerId = `${this.id}_apple_pay`
-      this.applePayContainer.id = applePayButtonParams.containerId
-    }
-
-    if (Object.keys(applePayButtonParams).length) {
-      config.applePayButtonParams = applePayButtonParams
+    if (Object.keys(payButtonParams).length) {
+      config[key] = payButtonParams
     }
   }
 }
