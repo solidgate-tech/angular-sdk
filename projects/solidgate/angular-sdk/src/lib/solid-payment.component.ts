@@ -1,4 +1,4 @@
-import {BehaviorSubject, combineLatest, filter, from, Observable, Subscription, tap} from "rxjs";
+import {from, Subscription, tap} from "rxjs";
 import {
   AfterViewInit,
   ChangeDetectionStrategy,
@@ -7,8 +7,7 @@ import {
   Input,
   NgZone,
   OnDestroy,
-  OnInit,
-  Output,
+  Output, ViewEncapsulation,
 } from '@angular/core';
 
 import {
@@ -48,13 +47,14 @@ interface PaymentElement {
     <div [id]="id"></div>
   `,
   styles: [`
-    iframe {
+    ngx-solid-payment iframe {
       border: none;
     }
   `],
+  encapsulation: ViewEncapsulation.None,
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class SolidPaymentComponent implements OnInit, AfterViewInit, OnDestroy, ClientSdkEventsProvider, PaymentElement {
+export class SolidPaymentComponent implements AfterViewInit, OnDestroy, ClientSdkEventsProvider, PaymentElement {
   private static Sdk$ = from(SdkLoader.load()).pipe(
     tap(sdk => SolidPaymentComponent.Sdk = sdk)
   )
@@ -84,7 +84,6 @@ export class SolidPaymentComponent implements OnInit, AfterViewInit, OnDestroy, 
   @Output() customStylesAppended = new EventEmitter<Message<MessageType.CustomStylesAppended>>()
   @Output() readyPaymentInstance = new EventEmitter<ClientSdkInstance>()
 
-  private viewInitialized$ = new BehaviorSubject(false)
   private form: ClientSdkInstance | null = null
   private subscription = new Subscription()
 
@@ -92,17 +91,15 @@ export class SolidPaymentComponent implements OnInit, AfterViewInit, OnDestroy, 
     private zone: NgZone
   ) {}
 
-  ngOnInit(): void {
-    this.subscription.add(
-      combineLatest([
-          SolidPaymentComponent.Sdk$,
-          this.whenViewInitialized$,
-      ]).subscribe(([sdk]) => this.initForm(sdk))
-    )
-  }
-
   ngAfterViewInit(): void {
-    this.viewInitialized$.next(true)
+    this.subscription.add(
+      SolidPaymentComponent
+        .Sdk$
+        .subscribe((sdk) => this
+          .zone
+          .runOutsideAngular(() => this.initForm(sdk))
+        )
+    )
   }
 
   ngOnDestroy(): void {
@@ -131,12 +128,6 @@ export class SolidPaymentComponent implements OnInit, AfterViewInit, OnDestroy, 
     this.form?.on(MessageType.Redirect, e => this.formRedirect.emit(e.data))
     this.form?.on(MessageType.Verify, e => this.verify.emit(e.data))
     this.form?.on(MessageType.CustomStylesAppended, e => this.customStylesAppended.emit(e.data))
-  }
-
-  private get whenViewInitialized$(): Observable<boolean> {
-    return this.viewInitialized$.pipe(
-      filter(Boolean)
-    )
   }
 
   private get initConfig(): InitConfig {

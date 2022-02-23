@@ -40,10 +40,10 @@ Component inputs and outputs are similar to described in the docs https://dev.so
 ```angular2html
 <ngx-solid-payment
     [merchantData]="merchantData"
+    [googlePayButtonParams]="googlePayParams"
     (mounted)="log($event)"
     (interaction)="log($event)"
     (customStylesAppended)="log($event)"
-    [googlePayButtonParams]="googlePayParams"
     width="50%"
 ></ngx-solid-payment>
 ```
@@ -60,11 +60,47 @@ In order to render google/apple button in custom container pass link to containe
 <div #appleButton></div>
 ```
 
-## Development server
+To use your own submit flow disable form button trough formParams in your component
 
-Run `ng serve @solidgate/example` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
+```typescript
+import {InitConfig} from '@solidgate/angular-sdk'
+
+formParams: InitConfig['formParams'] = {
+  allowSubmit: false
+}
+```
+
+Then subscribe to sdk instance and use `submit` method when you need it
+
+```angular2html
+<ngx-solid-payment
+  [merchantData]="merchantData"
+  [formParams]="formParams"
+  (readyPaymentInstance)="sdkInstance = $event"
+></ngx-solid-payment>
+
+<button 
+  *ngIf="!!sdkInstance" 
+  (click)="sdkInstance?.submit()"
+>
+  Submit
+</button>
+```
+
+If you need current validation state use `iteraction` event and cache it
+
+### Development
+
+In order to use angular-cli (which is required to build the project) you have to install at least v16.0.0 NodeJs 
 
 ## Build
 
-Run `ng build @solidgate/angular-sdk` to build the project. The build artifacts will be stored in the `dist/` directory.
+Run `npm run build:sdk` to build the project. The build artifacts will be stored in the `dist/` directory.
 
+## Development server
+
+Run `npm run serve:example` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
+
+## Publish
+
+Run `npm run publish`

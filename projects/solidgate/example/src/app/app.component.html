@@ -1,11 +1,11 @@
 <ngx-solid-payment
+  [formParams]="formParams"
   [merchantData]="merchantData"
   (mounted)="log($event)"
   (interaction)="log($event)"
   (customStylesAppended)="log($event)"
   [googlePayButtonParams]="googlePayParams"
   [googlePayContainer]="googlePay"
-  [applePayContainer]="applePay"
   width="50%"
 ></ngx-solid-payment>
-<div #googlePay></div>
+<div class="google-pay" #googlePay></div>
