@@ -149,7 +149,6 @@ export class SolidPaymentComponent implements AfterViewInit, OnDestroy, ClientSd
     return config
   }
 
-
   private appendIframeParams(config: InitConfig): void {
     config.iframeParams = {
       containerId: this.id
@@ -175,7 +174,7 @@ export class SolidPaymentComponent implements AfterViewInit, OnDestroy, ClientSd
 
     if (container) {
       if (container.id) {
-        console.warn(`Id attribute "${container.id}" of GooglePay container will be overriden`)
+        console.warn(`Id attribute "${container.id}" of container for ${key} will be overriden`)
       }
 
       payButtonParams.containerId = `${this.id}_google_pay`
