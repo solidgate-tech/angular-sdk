@@ -1,6 +1,6 @@
 {
   "name": "@solidgate/angular-sdk",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "repository": "https://bitbucket.org/solidgate/angular-sdk",
   "peerDependencies": {
     "@angular/common": "^13.2.0",

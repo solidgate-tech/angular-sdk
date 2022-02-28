@@ -7,7 +7,7 @@ This is a wrapper for Solidgate Client SDK
 Run inside Angular project
 
 ```
-ng add @solidagate/angular-sdk
+npm i @solidagate/angular-sdk
 ``` 
 
 ## Usage
@@ -91,22 +91,3 @@ Then subscribe to sdk instance and use `submit` method when you need it
 
 If you need current validation state use `iteraction` event and cache it
 
-### Development
-Navigate to http://localhost:3000/. The app will automatically reload if you change any of the
-
-In order to use angular-cli (which is required to build the project) you have to install at 
-least v16.0.0 NodeJs
-
-## Build
-
-Run `npm run build:sdk` to build the project. The build artifacts will be stored in the `dist/`
-directory.
-
-## Development server
-
-Run `npm run serve:example` for a dev server. Navigate to `http://localhost:4200/`. The app 
-will automatically reload if you change any of the source files.
-
-## Publish
-
-Run `npm run publish`
