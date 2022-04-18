@@ -11,21 +11,24 @@ import {
 } from '@angular/core';
 
 import {
+  CardMessage,
   ClientSdk,
   ClientSdkInstance,
+  CustomStylesAppendedMessage,
   ErrorMessage,
   FailMessage,
   InitConfig,
   InteractionMessage,
-  Message,
   MessageType,
   MountedMessage,
   OrderStatusMessage,
+  RedirectMessage,
   ResizeMessage,
   SdkLoader,
   SdkMessage,
   SubmitMessage,
   SuccessMessage,
+  VerifyMessage,
 } from "@solidgate/client-sdk-loader"
 
 type ClientSdkEventsProvider = {
@@ -79,10 +82,11 @@ export class SolidPaymentComponent implements AfterViewInit, OnDestroy, ClientSd
   @Output() interaction = new EventEmitter<InteractionMessage>()
   @Output() success = new EventEmitter<SuccessMessage>()
   @Output() submit = new EventEmitter<SubmitMessage>()
-  @Output() formRedirect = new EventEmitter<Message<MessageType.Redirect>>()
-  @Output() verify = new EventEmitter<Message<MessageType.Verify>>()
-  @Output() customStylesAppended = new EventEmitter<Message<MessageType.CustomStylesAppended>>()
+  @Output() formRedirect = new EventEmitter<RedirectMessage>()
+  @Output() verify = new EventEmitter<VerifyMessage>()
+  @Output() customStylesAppended = new EventEmitter<CustomStylesAppendedMessage>()
   @Output() readyPaymentInstance = new EventEmitter<ClientSdkInstance>()
+  @Output() card = new EventEmitter<CardMessage>()
 
   private form: ClientSdkInstance | null = null
   private subscription = new Subscription()
@@ -129,6 +133,7 @@ export class SolidPaymentComponent implements AfterViewInit, OnDestroy, ClientSd
     this.form.on(MessageType.Redirect, e => this.formRedirect.emit(e.data))
     this.form.on(MessageType.Verify, e => this.verify.emit(e.data))
     this.form.on(MessageType.CustomStylesAppended, e => this.customStylesAppended.emit(e.data))
+    this.form.on(MessageType.Card, (e) => this.card.emit(e.data))
   }
 
   private get initConfig(): InitConfig {
