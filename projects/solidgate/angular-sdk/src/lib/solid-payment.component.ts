@@ -31,6 +31,8 @@ import {
   VerifyMessage,
 } from "@solidgate/client-sdk-loader"
 
+import '../boot'
+
 type ClientSdkEventsProvider = {
   [key in keyof SdkMessage]: EventEmitter<SdkMessage[key]>
 }
