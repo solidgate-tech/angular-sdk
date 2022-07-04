@@ -1,3 +1,7 @@
+**1.2.0**
+
+Added **formParams.autoFocus** config param
+
 **1.1.2**
 
 Added license
