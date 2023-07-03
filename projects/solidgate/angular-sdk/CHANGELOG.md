@@ -1,3 +1,9 @@
+**1.4.0**
+
+Added  **Cartes Bancaires** card brand support
+
+***
+
 **1.3.0**
 
 Added **formParams.buttonType** config param
