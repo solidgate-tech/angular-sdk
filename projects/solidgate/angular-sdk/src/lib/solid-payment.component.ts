@@ -2,12 +2,14 @@ import {from, Subscription, tap} from "rxjs";
 import {
   AfterViewInit,
   ChangeDetectionStrategy,
-  Component,
+  ChangeDetectorRef,
+  Component, DoCheck,
   EventEmitter,
   Input,
   NgZone,
   OnDestroy,
-  Output, ViewEncapsulation,
+  Output,
+  ViewEncapsulation,
 } from '@angular/core';
 
 import {
@@ -59,13 +61,14 @@ interface PaymentElement {
   encapsulation: ViewEncapsulation.None,
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class SolidPaymentComponent implements AfterViewInit, OnDestroy, ClientSdkEventsProvider, PaymentElement {
+export class SolidPaymentComponent implements DoCheck, AfterViewInit, OnDestroy, ClientSdkEventsProvider, PaymentElement {
   private static Sdk$ = from(SdkLoader.load()).pipe(
     tap(sdk => SolidPaymentComponent.Sdk = sdk)
   )
   private static Sdk: ClientSdk | null = null
 
   public id = `${Math.random()}_${Date.now()}_solid_sdk`
+
 
   @Input() merchantData: PaymentElement['merchantData']
   @Input() width: PaymentElement['width']
@@ -90,19 +93,36 @@ export class SolidPaymentComponent implements AfterViewInit, OnDestroy, ClientSd
   @Output() readyPaymentInstance = new EventEmitter<ClientSdkInstance>()
   @Output() card = new EventEmitter<CardMessage>()
 
+  private isListenersConnected = false
   private form: ClientSdkInstance | null = null
   private subscription = new Subscription()
+  private previousInitKey = ""
 
   constructor(
-    private zone: NgZone
+    private zone: NgZone,
+    private cd: ChangeDetectorRef,
   ) {}
 
-  ngAfterViewInit(): void {
+  ngDoCheck() {
+    const { key} = this.initConfig()
+
+    if (this.previousInitKey && this.previousInitKey !== key) {
+      this.subscription.add(
+        SolidPaymentComponent
+          .Sdk$
+          .subscribe((sdk) => this.initForm(sdk))
+      )
+    }
+  }
+
+  ngAfterViewInit() {
     this.subscription.add(
       SolidPaymentComponent
         .Sdk$
         .subscribe((sdk) => this.initForm(sdk))
     )
+
+    this.cd.detach();
   }
 
   ngOnDestroy(): void {
@@ -114,31 +134,51 @@ export class SolidPaymentComponent implements AfterViewInit, OnDestroy, ClientSd
   }
 
   initForm(sdk: ClientSdk) {
+    const {config, key} = this.initConfig()
+
+    if (this.previousInitKey === key) {
+      return;
+    }
+
     this.zone.runOutsideAngular(() => {
-      this.form = sdk.init(this.initConfig)
+      this.previousInitKey = key
+      this.form = sdk.init(config)
     })
 
     if (!this.form) {
       return
     }
 
-    this.readyPaymentInstance.emit(this.form)
-
-    this.form.on(MessageType.Mounted, e => this.mounted.emit(e.data))
-    this.form.on(MessageType.Error, e => this.error.emit(e.data))
-    this.form.on(MessageType.Fail, e => this.fail.emit(e.data))
-    this.form.on(MessageType.OrderStatus, e => this.orderStatus.emit(e.data))
-    this.form.on(MessageType.Resize, e => this.resize.emit(e.data))
-    this.form.on(MessageType.Interaction, e => this.interaction.emit(e.data))
-    this.form.on(MessageType.Success, e => this.success.emit(e.data))
-    this.form.on(MessageType.Submit, e => this.submit.emit(e.data))
-    this.form.on(MessageType.Redirect, e => this.formRedirect.emit(e.data))
-    this.form.on(MessageType.Verify, e => this.verify.emit(e.data))
-    this.form.on(MessageType.CustomStylesAppended, e => this.customStylesAppended.emit(e.data))
-    this.form.on(MessageType.Card, (e) => this.card.emit(e.data))
+    if (!this.isListenersConnected) {
+      this.connectListeners(this.form);
+    }
   }
 
-  private get initConfig(): InitConfig {
+  private connectListeners(form: ClientSdkInstance): void {
+    this.readyPaymentInstance.emit(form)
+
+    this.zone.runOutsideAngular(() => {
+      form.on(MessageType.Mounted, e => this.mounted.emit(e.data))
+      form.on(MessageType.Error, e => this.error.emit(e.data))
+      form.on(MessageType.Fail, e => this.fail.emit(e.data))
+      form.on(MessageType.OrderStatus, e => this.orderStatus.emit(e.data))
+      form.on(MessageType.Resize, e => this.resize.emit(e.data))
+      form.on(MessageType.Interaction, e => this.interaction.emit(e.data))
+      form.on(MessageType.Success, e => this.success.emit(e.data))
+      form.on(MessageType.Submit, e => this.submit.emit(e.data))
+      form.on(MessageType.Redirect, e => this.formRedirect.emit(e.data))
+      form.on(MessageType.Verify, e => this.verify.emit(e.data))
+      form.on(MessageType.CustomStylesAppended, e => this.customStylesAppended.emit(e.data))
+      form.on(MessageType.Card, (e) => this.card.emit(e.data))
+
+      this.isListenersConnected = true
+    })
+  }
+
+  private initConfig(): {
+    config: InitConfig
+    key: string
+  } {
     if (!this.merchantData) {
       throw new Error("Attribute 'merchantData' is required");
     }
@@ -153,7 +193,10 @@ export class SolidPaymentComponent implements AfterViewInit, OnDestroy, ClientSd
     this.appendPayButtonParams(config, 'googlePayButtonParams', this.googlePayContainer)
     this.appendPayButtonParams(config, 'applePayButtonParams', this.applePayContainer)
 
-    return config
+    return {
+      config,
+      key: JSON.stringify(config)
+    }
   }
 
   private appendIframeParams(config: InitConfig): void {
@@ -171,6 +214,7 @@ export class SolidPaymentComponent implements AfterViewInit, OnDestroy, ClientSd
     key: T,
     container: HTMLElement | undefined
   ) {
+    const syntheticContainerId = `${this.id}_${key}`;
     const payButtonParams = {
       ...(config[key] || {})
     } as NonNullable<InitConfig[T]>
@@ -180,11 +224,11 @@ export class SolidPaymentComponent implements AfterViewInit, OnDestroy, ClientSd
     }
 
     if (container) {
-      if (container.id) {
+      if (container.id && container.id !== syntheticContainerId) {
         console.warn(`Id attribute "${container.id}" of container for ${key} will be overriden`)
       }
 
-      payButtonParams.containerId = `${this.id}_${key}`
+      payButtonParams.containerId = syntheticContainerId
       container.id = payButtonParams.containerId
     }
 

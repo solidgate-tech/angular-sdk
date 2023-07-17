@@ -1,5 +1,6 @@
-import { Component } from '@angular/core';
-import {MessageType, SdkMessage, InitConfig } from "@solidgate/angular-sdk";
+import {Component} from '@angular/core';
+
+import {FormType, InitConfig, MessageType, SdkMessage} from "@solidgate/angular-sdk";
 
 @Component({
   selector: 'app-root',
@@ -13,7 +14,9 @@ export class AppComponent {
     "paymentIntent": "<--YOUR DATA-->>"
   }
 
-  formParams: InitConfig['formParams'] = {}
+  formParams: InitConfig['formParams'] = {
+    formTypeClass: FormType.Default
+  }
 
   googlePayParams = {
     color: 'white'
@@ -21,5 +24,15 @@ export class AppComponent {
 
   log(event: SdkMessage[MessageType]) {
     console.log(event.type, event)
+  }
+
+  changeTemplate() {
+    if (!this.formParams) {
+      return
+    }
+
+    this.formParams.formTypeClass = this.formParams.formTypeClass === FormType.Default
+      ? FormType.Card
+      : FormType.Default
   }
 }

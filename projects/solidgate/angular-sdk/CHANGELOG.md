@@ -1,3 +1,7 @@
+**1.5.0**
+
+Reinit form in case of init parameters change
+
 **1.4.0**
 
 Added  **Cartes Bancaires** card brand support
