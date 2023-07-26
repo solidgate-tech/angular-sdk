@@ -35,9 +35,9 @@ export class AppModule { }
 
 Render a component
 
-Component inputs and outputs are similar to described in the docs
+Component inputs and outputs are described in the docs
 
-https://dev.solidgate.com/developers/documentation/solid-payment-form
+https://docs.solidgate.com/payments/integrate/payment-form/create-your-payment-form/
 
 ```angular2html
 <ngx-solid-payment

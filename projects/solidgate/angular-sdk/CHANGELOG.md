@@ -1,6 +1,14 @@
+**1.5.1**
+
+Moved mirror repository to github, fix README.MD link to new documentation
+
+***
+
 **1.5.0**
 
 Reinit form in case of init parameters change
+
+***
 
 **1.4.0**
 
