@@ -1,3 +1,9 @@
+**1.5.2**
+
+Added labels, placeholders types, fixed error type
+
+***
+
 **1.5.1**
 
 Moved mirror repository to github, fix README.MD link to new documentation
