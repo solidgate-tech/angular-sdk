@@ -1,6 +1,13 @@
 import {Component} from '@angular/core';
 
-import {FormType, InitConfig, MessageType, SdkMessage} from "@solidgate/angular-sdk";
+import {
+  FormType,
+  InitConfig,
+  MessageType,
+  SdkMessage,
+  ResignRequest,
+  ResignFormConfig
+} from "@solidgate/angular-sdk";
 
 @Component({
   selector: 'app-root',
@@ -8,6 +15,8 @@ import {FormType, InitConfig, MessageType, SdkMessage} from "@solidgate/angular-
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent {
+  isResignFlow: boolean = false;
+
   merchantData: InitConfig['merchantData'] = {
     "merchant": "<--YOUR DATA-->",
     "signature": "<--YOUR DATA-->",
@@ -22,11 +31,19 @@ export class AppComponent {
     color: 'white'
   }
 
+  resignRequest: ResignRequest = {
+    "merchant": "<--YOUR DATA-->",
+    "signature": "<--YOUR DATA-->",
+    "resignIntent": "<--YOUR DATA-->>"
+  }
+
+  resignFormConfig?: ResignFormConfig;
+
   log(event: SdkMessage[MessageType]) {
     console.log(event.type, event)
   }
 
-  changeTemplate() {
+  changePaymentFormTemplate() {
     if (!this.formParams) {
       return
     }
@@ -34,5 +51,32 @@ export class AppComponent {
     this.formParams.formTypeClass = this.formParams.formTypeClass === FormType.Default
       ? FormType.Card
       : FormType.Default
+  }
+
+  changeResignFormConfig () {
+    if (!this.resignFormConfig) {
+      this.resignFormConfig = {
+        appearance: {
+          submitButtonText: 'Custom submit text',
+          allowSubmit: true,
+          googleFontLink: 'https://fonts.googleapis.com/css2?family=Roboto:wght@300&display=swap',
+          resignCvvLabel: 'CVC',
+          resignCvvPlaceholder: '123',
+          hideCvvNumbers: false
+        },
+        container: {
+          width: '500px'
+        },
+        styles: {
+          "resign-cvv": {
+            ".resign-label": {
+              "display": "block"
+            }
+          }
+        }
+      }
+    } else {
+      this.resignFormConfig = undefined;
+    }
   }
 }

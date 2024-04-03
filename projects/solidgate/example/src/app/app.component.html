@@ -1,12 +1,31 @@
-<button (click)="changeTemplate()">Change template</button>
-<ngx-solid-payment
-  [formParams]="formParams"
-  [merchantData]="merchantData"
-  (mounted)="log($event)"
-  (interaction)="log($event)"
-  (customStylesAppended)="log($event)"
-  [googlePayButtonParams]="googlePayParams"
-  [googlePayContainer]="googlePay"
-  width="50%"
-></ngx-solid-payment>
-<div class="google-pay" #googlePay></div>
+<ng-container *ngIf="!isResignFlow; else resignForm">
+  <button (click)="changePaymentFormTemplate()">Change template</button>
+
+  <ngx-solid-payment
+    [formParams]="formParams"
+    [merchantData]="merchantData"
+    (mounted)="log($event)"
+    (interaction)="log($event)"
+    (customStylesAppended)="log($event)"
+    [googlePayButtonParams]="googlePayParams"
+    [googlePayContainer]="googlePay"
+    width="50%"
+  ></ngx-solid-payment>
+  <div class="google-pay" #googlePay></div>
+</ng-container>
+<ng-template #resignForm>
+  <button (click)="changeResignFormConfig()">Change resign form config</button>
+  <ngx-solid-resign
+    [resignRequest]="resignRequest"
+    [appearance]="resignFormConfig?.appearance"
+    [container]="resignFormConfig?.container"
+    [styles]="resignFormConfig?.styles"
+    (mounted)="log($event)"
+    (interaction)="log($event)"
+  ></ngx-solid-resign>
+</ng-template>
+
+<button
+  (click)="isResignFlow = !isResignFlow"
+  class="flow-init-button"
+>{{ isResignFlow ? "Init payment form" : "Init resign form" }}</button>

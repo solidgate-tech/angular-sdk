@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-import { SolidPaymentModule } from "@solidgate/angular-sdk";
+import { SolidPaymentModule, SolidResignModule } from "@solidgate/angular-sdk";
 
 import { AppComponent } from './app.component';
 
@@ -10,7 +10,8 @@ import { AppComponent } from './app.component';
   ],
   imports: [
     BrowserModule,
-    SolidPaymentModule
+    SolidPaymentModule,
+    SolidResignModule
   ],
   providers: [],
   bootstrap: [AppComponent]

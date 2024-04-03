@@ -1,3 +1,10 @@
+**1.6.0**
+
+- Added resign form
+- Updated Payment Form SDK interfaces: update method, resign method, events
+
+***
+
 **1.5.2**
 
 Added labels, placeholders types, fixed error type
