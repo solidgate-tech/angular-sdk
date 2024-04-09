@@ -1,3 +1,21 @@
+**1.7.0**
+
+Added new card brands to `formParams.cardBrands` parameter of the `<ngx-solid-payment />`:
+
+- Rupay
+- BC Card
+- UnionPay
+- Dankort
+- GPN Card
+- Troy
+- Thai Payment Network
+- MADA
+- Bancontact
+- Interac
+- Bajaj
+
+***
+
 **1.6.0**
 
 - Added resign form
