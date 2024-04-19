@@ -43,6 +43,10 @@ export class AppComponent {
     console.log(event.type, event)
   }
 
+  logError(event: Error) {
+    console.log(event)
+  }
+
   changePaymentFormTemplate() {
     if (!this.formParams) {
       return

@@ -1,3 +1,9 @@
+**1.8.0**
+
+Added `resignInitFailed` event to Resign component to allow handling the case when the resign form initialization failed
+
+***
+
 **1.7.0**
 
 Added new card brands to `formParams.cardBrands` parameter of the `<ngx-solid-payment />`:

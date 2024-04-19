@@ -85,6 +85,7 @@ export class SolidResignComponent implements DoCheck, AfterViewInit, OnDestroy, 
   @Output() verify = new EventEmitter<VerifyMessage>()
   @Output() customStylesAppended = new EventEmitter<CustomStylesAppendedMessage>()
   @Output() readyResignInstance = new EventEmitter<ClientSdkInstance>()
+  @Output() resignInitFailed = new EventEmitter<Error>()
 
   private isListenersConnected = false
   private form: ClientSdkInstance | null = null
@@ -134,16 +135,20 @@ export class SolidResignComponent implements DoCheck, AfterViewInit, OnDestroy, 
     }
 
     this.zone.runOutsideAngular(async () => {
-      this.previousInitKey = key;
+      try {
+        this.previousInitKey = key;
 
-      this.form = await sdk.resign(config.resignRequest, config.formConfig);
+        this.form = await sdk.resign(config.resignRequest, config.formConfig);
 
-      if (!this.form) {
-        return;
-      }
+        if (!this.form) {
+          return;
+        }
 
-      if (!this.isListenersConnected) {
-        this.connectListeners(this.form);
+        if (!this.isListenersConnected) {
+          this.connectListeners(this.form);
+        }
+      } catch (error) {
+        this.resignInitFailed.emit(error as Error)
       }
     })
   }

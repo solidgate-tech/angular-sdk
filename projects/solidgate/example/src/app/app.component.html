@@ -22,6 +22,7 @@
     [styles]="resignFormConfig?.styles"
     (mounted)="log($event)"
     (interaction)="log($event)"
+    (resignInitFailed)="logError($event)"
   ></ngx-solid-resign>
 </ng-template>
 
