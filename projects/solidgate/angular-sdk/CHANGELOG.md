@@ -1,3 +1,18 @@
+**1.9.1**
+
+Update Order Status error interface:
+- `error.message: string` -> `error.messages: string[]`
+
+***
+
+**1.9.0**
+
+Update minimal versions of peer dependencies
+- `@angular/core` to `13` and higher
+- `@angular/common` to `13` and higher
+
+***
+
 **1.8.0**
 
 Added `resignInitFailed` event to Resign component to allow handling the case when the resign form initialization failed
