@@ -60,9 +60,11 @@ In order to render google/apple button in custom container pass link to containe
     [merchantData]="merchantData"
     [googlePayContainer]="googlePay"
     [applePayContainer]="applePay"
+    [paypalContainer]="paypalButton"
 ></ngx-solid-payment>
 <div #googleButton></div>
 <div #appleButton></div>
+<div #paypalButton></div>
 ```
 
 To use your own submit flow disable form button trough formParams in your component

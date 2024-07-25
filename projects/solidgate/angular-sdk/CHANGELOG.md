@@ -1,3 +1,14 @@
+**1.10.0**
+
+Added PayPal support to the Payment Form
+
+- Added `paypalButtonParams` and `paypalContainer` to the `Payment` component input properties to allow to enable and configure the PayPal button. See more: https://docs.solidgate.com/payments/integrate/payment-form/paypal-button/
+- Extend an existing SDK events with the `paypal` entity: `mounted`, `success`, `fail`, `submit`, `interaction`;
+- Extended `orderStatus` with `entity: PayableEntity` and added the `APMOrderStatus` interface to the order status event's `response` property.
+- Added the `APMOrderStatus` interface corresponding to APM payments. For more information, see: https://api-docs.solidgate.com/#tag/Alternative-payment-methods/operation/webhook-apm-order-status
+
+***
+
 **1.9.1**
 
 Update Order Status error interface:

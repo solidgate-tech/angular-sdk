@@ -46,6 +46,7 @@ interface PaymentElement {
   formParams?: InitConfig['formParams']
   googlePayButtonParams?: Omit<InitConfig['googlePayButtonParams'], 'containerId'>
   applePayButtonParams?: Omit<InitConfig['applePayButtonParams'], 'containerId'>
+  paypalButtonParams?: Omit<InitConfig['paypalButtonParams'], 'containerId'>
 }
 
 @Component({
@@ -76,8 +77,10 @@ export class SolidPaymentComponent implements DoCheck, AfterViewInit, OnDestroy,
   @Input() formParams: PaymentElement['formParams']
   @Input() googlePayButtonParams: PaymentElement['googlePayButtonParams']
   @Input() applePayButtonParams: PaymentElement['applePayButtonParams']
+  @Input() paypalButtonParams: PaymentElement['paypalButtonParams']
   @Input() applePayContainer: HTMLElement | undefined
   @Input() googlePayContainer: HTMLElement | undefined
+  @Input() paypalContainer: HTMLElement | undefined
 
   @Output() mounted = new EventEmitter<MountedMessage>()
   @Output() error = new EventEmitter<ErrorMessage>()
@@ -133,10 +136,10 @@ export class SolidPaymentComponent implements DoCheck, AfterViewInit, OnDestroy,
     })
   }
 
-  initForm(sdk: ClientSdk) {
+  initForm(sdk: ClientSdk | null) {
     const {config, key} = this.initConfig()
 
-    if (this.previousInitKey === key) {
+    if (this.previousInitKey === key || !sdk) {
       return;
     }
 
@@ -186,12 +189,16 @@ export class SolidPaymentComponent implements DoCheck, AfterViewInit, OnDestroy,
     const config: InitConfig = {
       merchantData: this.merchantData,
       formParams: this.formParams,
-      styles: this.styles
+      styles: this.styles,
+      applePayButtonParams: this.applePayButtonParams,
+      googlePayButtonParams: this.googlePayButtonParams,
+      paypalButtonParams: this.paypalButtonParams
     }
 
     this.appendIframeParams(config)
     this.appendPayButtonParams(config, 'googlePayButtonParams', this.googlePayContainer)
     this.appendPayButtonParams(config, 'applePayButtonParams', this.applePayContainer)
+    this.appendPayButtonParams(config, 'paypalButtonParams', this.paypalContainer)
 
     return {
       config,
@@ -209,7 +216,7 @@ export class SolidPaymentComponent implements DoCheck, AfterViewInit, OnDestroy,
     }
   }
 
-  private appendPayButtonParams<T extends 'googlePayButtonParams' | 'applePayButtonParams'>(
+  private appendPayButtonParams<T extends 'googlePayButtonParams' | 'applePayButtonParams' | 'paypalButtonParams'>(
     config: InitConfig,
     key: T,
     container: HTMLElement | undefined

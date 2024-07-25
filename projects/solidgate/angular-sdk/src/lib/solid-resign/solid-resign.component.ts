@@ -127,10 +127,10 @@ export class SolidResignComponent implements DoCheck, AfterViewInit, OnDestroy, 
     })
   }
 
-  initForm(sdk: ClientSdk) {
+  initForm(sdk: ClientSdk | null) {
     const { config, key} = this.initResignConfig()
 
-    if (this.previousInitKey === key) {
+    if (this.previousInitKey === key || !sdk) {
       return;
     }
 
