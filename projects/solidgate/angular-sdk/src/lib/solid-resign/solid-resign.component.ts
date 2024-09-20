@@ -21,6 +21,7 @@ import {
   ResignRequest,
   ResignFormConfig,
   InteractionMessage,
+  PaymentDetailsMessage,
   MessageType,
   MountedMessage,
   OrderStatusMessage,
@@ -84,6 +85,7 @@ export class SolidResignComponent implements DoCheck, AfterViewInit, OnDestroy, 
   @Output() formRedirect = new EventEmitter<RedirectMessage>()
   @Output() verify = new EventEmitter<VerifyMessage>()
   @Output() customStylesAppended = new EventEmitter<CustomStylesAppendedMessage>()
+  @Output() paymentDetails = new EventEmitter<PaymentDetailsMessage>()
   @Output() readyResignInstance = new EventEmitter<ClientSdkInstance>()
   @Output() resignInitFailed = new EventEmitter<Error>()
 
@@ -168,6 +170,7 @@ export class SolidResignComponent implements DoCheck, AfterViewInit, OnDestroy, 
       form.on(MessageType.Redirect, e => this.formRedirect.emit(e.data))
       form.on(MessageType.Verify, e => this.verify.emit(e.data))
       form.on(MessageType.CustomStylesAppended, e => this.customStylesAppended.emit(e.data))
+      form.on(MessageType.PaymentDetails, e => this.paymentDetails.emit(e.data))
 
       this.isListenersConnected = true
     })

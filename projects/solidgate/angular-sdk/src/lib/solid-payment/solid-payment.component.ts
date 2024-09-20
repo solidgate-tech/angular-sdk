@@ -24,6 +24,7 @@ import {
   MessageType,
   MountedMessage,
   OrderStatusMessage,
+  PaymentDetailsMessage,
   RedirectMessage,
   ResizeMessage,
   SdkLoader,
@@ -95,6 +96,7 @@ export class SolidPaymentComponent implements DoCheck, AfterViewInit, OnDestroy,
   @Output() customStylesAppended = new EventEmitter<CustomStylesAppendedMessage>()
   @Output() readyPaymentInstance = new EventEmitter<ClientSdkInstance>()
   @Output() card = new EventEmitter<CardMessage>()
+  @Output() paymentDetails = new EventEmitter<PaymentDetailsMessage>()
 
   private isListenersConnected = false
   private form: ClientSdkInstance | null = null
@@ -173,6 +175,7 @@ export class SolidPaymentComponent implements DoCheck, AfterViewInit, OnDestroy,
       form.on(MessageType.Verify, e => this.verify.emit(e.data))
       form.on(MessageType.CustomStylesAppended, e => this.customStylesAppended.emit(e.data))
       form.on(MessageType.Card, (e) => this.card.emit(e.data))
+      form.on(MessageType.PaymentDetails, (e) => this.paymentDetails.emit(e.data))
 
       this.isListenersConnected = true
     })

@@ -1,3 +1,9 @@
+**1.11.0**
+
+**ApplePay** js integration (see [ApplePay](https://docs.solidgate.com/payments/integrate/payment-form/apple-pay/))
+
+**PaymentDetails** event (see [PaymentDetails](https://docs.solidgate.com/payments/integrate/payment-form/form-events/#payment-details))
+
 **1.10.0**
 
 Added PayPal support to the Payment Form
