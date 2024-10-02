@@ -1,3 +1,7 @@
+**1.12.0**
+
+Added **priceBreakdown.taxRate** float to **PaymentDetails** event
+
 **1.11.0**
 
 **ApplePay** js integration (see [ApplePay](https://docs.solidgate.com/payments/integrate/payment-form/apple-pay/))
