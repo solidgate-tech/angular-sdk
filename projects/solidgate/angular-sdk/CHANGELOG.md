@@ -1,3 +1,9 @@
+**1.13.0**
+
+Added `Paypal` to the `Payment` `formParams.cardBrands` component props to enable the PayPal icon to be displayed among the supported card brands on the Payment Form
+
+Added `CardBrandIconStyle` to `appearance` of the `Resign` component to allow card brand icon customization on the Resign form
+
 **1.12.0**
 
 Added **priceBreakdown.taxRate** float to **PaymentDetails** event
