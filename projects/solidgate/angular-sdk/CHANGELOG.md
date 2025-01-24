@@ -1,3 +1,7 @@
+**1.14.0**
+
+Added new fields to the `Card` event: `bin`, `cardType`, `bank`
+
 **1.13.0**
 
 Added `Paypal` to the `Payment` `formParams.cardBrands` component props to enable the PayPal icon to be displayed among the supported card brands on the Payment Form
