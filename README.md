@@ -1,19 +1,56 @@
 # Solidgate Angular SDK
 
-This is a wrapper for Solidgate Client SDK
+This repository is an Angular wrapper for the Solidgate Client Software Development Kit (SDK).
 
-### Development
+Check our
+* <a href="https://docs.solidgate.com/" target="_blank">Payment guide</a> to understand business value better
+* <a href="https://api-docs.solidgate.com/" target="_blank">API Reference</a> to find more examples of usage
 
-In order to use angular-cli (which is required to build the project) you have to install at least v16.0.0 NodeJs 
+## Structure
 
-## Build
+<table>
+  <tr>
+    <th><abbr title="Software Development Kit">SDK</abbr> for Angular contains</th>
+    <th>Table of contents</th>
+  </tr>
+  <tr>
+    <td>
+      <code>projects/solidgate/</code> – source for the Angular library (<abbr title="Software Development Kit">SDK</abbr>)<br>
+      <code>dist</code> – compiled build output<br>
+      <code>angular.json</code> – Angular CLI configuration<br>
+      <code>package.json</code> – project metadata and dependency definitions
+    </td>
+    <td>
+      <a href="https://github.com/solidgate-tech/angular-sdk?tab=readme-ov-file#installation">Installation</a><br>
+      <a href="https://github.com/solidgate-tech/angular-sdk?tab=readme-ov-file#usage">Usage</a><br>
+      <a href="https://github.com/solidgate-tech/angular-sdk?tab=readme-ov-file#development-server">Development server</a><br>
+      <a href="https://github.com/solidgate-tech/angular-sdk?tab=readme-ov-file#build">Build</a>
+    </td>
+  </tr>
+</table>
 
-Run `npm run build:sdk` to build the project. The build artifacts will be stored in the `dist/` directory.
+
+## Installation
+
+Run the following command in your Angular project:
+
+```
+npm i @solidagate/angular-sdk
+```
+
+## Usage
+
+To build the project, install Angular CLI and ensure that Node.js is at least version 16.0.0.
 
 ## Development server
 
-Run `npm run serve:example` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
+1. `cd playground`
+2. `npm i`
+3. `npm run start`
+4. `Navigate to http://localhost:3000/`
 
-## Publish
+## Build
 
-Run `npm run publish`
+Run ```npm run build``` to build the project.
+
+The build artefacts will be stored in the `dist/` directory.
