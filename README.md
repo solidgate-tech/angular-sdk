@@ -4,7 +4,7 @@ This is a wrapper for Solidgate Client SDK
 
 ### Development
 
-In order to use angular-cli (which is required to build the project) you have to install at least v16.0.0 NodeJs 
+In order to use angular-cli (which is required to build the project) you have to install at least v16.0.0 NodeJs
 
 ## Build
 

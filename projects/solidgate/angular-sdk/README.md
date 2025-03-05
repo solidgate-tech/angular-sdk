@@ -1,14 +1,45 @@
 # Solidgate Angular SDK
 
-This is a wrapper for Solidgate Client SDK
+This repository is an Angular wrapper for the Solidgate Client Software Development Kit (SDK).
+
+Check our
+* <a href="https://docs.solidgate.com/" target="_blank">Payment guide</a> to understand business value better
+* <a href="https://api-docs.solidgate.com/" target="_blank">API Reference</a> to find more examples of usage
+
+## Structure
+
+<table>
+  <tr>
+    <th>SDK for Angular contains</th>
+    <th>Table of contents</th>
+  </tr>
+  <tr>
+    <td>
+      <code>projects/solidgate/</code> – source for the Angular library (SDK)<br>
+      <code>dist</code> – compiled build output<br>
+      <code>angular.json</code> – Angular CLI configuration<br>
+      <code>package.json</code> – project metadata and dependency definitions
+    </td>
+    <td>
+      <a href="https://github.com/solidgate-tech/angular-sdk/tree/master/projects/solidgate/angular-sdk#installation">Installation</a><br>
+      <a href="https://github.com/solidgate-tech/angular-sdk/tree/master/projects/solidgate/angular-sdk#usage">Usage</a><br>
+      <a href="https://github.com/solidgate-tech/angular-sdk/tree/master?tab=readme-ov-file#development-server">Development server</a><br>
+      <a href="https://github.com/solidgate-tech/angular-sdk/tree/master?tab=readme-ov-file#build">Build</a>
+    </td>
+  </tr>
+</table>
+
+<br>
 
 ## Installation
 
-Run inside Angular project
+Run the following command in your Angular project:
 
 ```
 npm i @solidagate/angular-sdk
-``` 
+```
+
+<br>
 
 ## Usage
 
