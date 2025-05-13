@@ -1,3 +1,7 @@
+**1.16.0**
+
+Added the ability to override the **SDK** script `src` via `SdkLoader.load(url)` call.
+
 **1.15.0**
 
 Added **descriptor** to the **order** field of **Success** and **Fail** events
