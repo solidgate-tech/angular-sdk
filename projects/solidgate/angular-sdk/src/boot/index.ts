@@ -6,6 +6,9 @@ declare global {
   }
 }
 
-window.__SOLIDGATE_PRIVATE__SDK_INIT_TYPE = sdkInitType
+// Verify that `window` exists for SSR compatibility
+if (typeof window !== 'undefined') {
+  window.__SOLIDGATE_PRIVATE__SDK_INIT_TYPE = sdkInitType
+}
 
 export {}

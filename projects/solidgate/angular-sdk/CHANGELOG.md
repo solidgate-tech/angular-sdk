@@ -1,3 +1,7 @@
+**1.16.1**
+
+Added check for `window` existence, before using it, for SSR compatibility
+
 **1.16.0**
 
 Added the ability to override the **SDK** script `src` via `SdkLoader.load(url)` call.
