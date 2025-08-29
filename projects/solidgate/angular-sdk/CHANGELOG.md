@@ -1,3 +1,7 @@
+**1.16.2**
+
+Added **applyCoupon** type declaration to **ClientSdkInstance** interface
+
 **1.16.1**
 
 Added check for `window` existence, before using it, for SSR compatibility
