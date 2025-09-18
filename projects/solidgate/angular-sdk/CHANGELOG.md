@@ -1,3 +1,7 @@
+**1.19.0**
+
+Added **pix** to the **name** field of **MountedMessage** event and to the **PayableEntity** enum
+
 **1.18.0**
 
 Added **pix** to the **name** field of **InteractionMessage** event
