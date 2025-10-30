@@ -1,3 +1,7 @@
+**1.20.0**
+
+Added **cardCategory** to the **card** field of **Card** event
+
 **1.19.0**
 
 Added **pix** to the **name** field of **MountedMessage** event and to the **PayableEntity** enum
