@@ -17,3 +17,8 @@ Run `npm run serve:example` for a dev server. Navigate to `http://localhost:4200
 ## Publish
 
 Run `npm run publish`
+
+---
+
+Looking for help? <a href="https://support.solidgate.com/support/tickets/new" target="_blank">Contact us</a> <br>
+Want to contribute? <a href="https://github.com/solidgate-tech/angular-sdk/pulls" target="_blank">Submit a pull request</a>
