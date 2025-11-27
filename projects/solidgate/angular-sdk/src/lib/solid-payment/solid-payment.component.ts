@@ -48,6 +48,7 @@ interface PaymentElement {
   googlePayButtonParams?: Omit<InitConfig['googlePayButtonParams'], 'containerId'>
   applePayButtonParams?: Omit<InitConfig['applePayButtonParams'], 'containerId'>
   paypalButtonParams?: Omit<InitConfig['paypalButtonParams'], 'containerId'>
+  pixButtonParams?: Omit<InitConfig['pixButtonParams'], 'containerId'>
 }
 
 @Component({
@@ -79,9 +80,11 @@ export class SolidPaymentComponent implements DoCheck, AfterViewInit, OnDestroy,
   @Input() googlePayButtonParams: PaymentElement['googlePayButtonParams']
   @Input() applePayButtonParams: PaymentElement['applePayButtonParams']
   @Input() paypalButtonParams: PaymentElement['paypalButtonParams']
+  @Input() pixButtonParams: PaymentElement['pixButtonParams']
   @Input() applePayContainer: HTMLElement | undefined
   @Input() googlePayContainer: HTMLElement | undefined
   @Input() paypalContainer: HTMLElement | undefined
+  @Input() pixContainer: HTMLElement | undefined
 
   @Output() mounted = new EventEmitter<MountedMessage>()
   @Output() error = new EventEmitter<ErrorMessage>()
@@ -195,13 +198,15 @@ export class SolidPaymentComponent implements DoCheck, AfterViewInit, OnDestroy,
       styles: this.styles,
       applePayButtonParams: this.applePayButtonParams,
       googlePayButtonParams: this.googlePayButtonParams,
-      paypalButtonParams: this.paypalButtonParams
+      paypalButtonParams: this.paypalButtonParams,
+      pixButtonParams: this.pixButtonParams
     }
 
     this.appendIframeParams(config)
     this.appendPayButtonParams(config, 'googlePayButtonParams', this.googlePayContainer)
     this.appendPayButtonParams(config, 'applePayButtonParams', this.applePayContainer)
     this.appendPayButtonParams(config, 'paypalButtonParams', this.paypalContainer)
+    this.appendPayButtonParams(config, 'pixButtonParams', this.pixContainer)
 
     return {
       config,
@@ -219,7 +224,7 @@ export class SolidPaymentComponent implements DoCheck, AfterViewInit, OnDestroy,
     }
   }
 
-  private appendPayButtonParams<T extends 'googlePayButtonParams' | 'applePayButtonParams' | 'paypalButtonParams'>(
+  private appendPayButtonParams<T extends 'googlePayButtonParams' | 'applePayButtonParams' | 'paypalButtonParams' | 'pixButtonParams'>(
     config: InitConfig,
     key: T,
     container: HTMLElement | undefined
