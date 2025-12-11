@@ -49,6 +49,7 @@ interface PaymentElement {
   applePayButtonParams?: Omit<InitConfig['applePayButtonParams'], 'containerId'>
   paypalButtonParams?: Omit<InitConfig['paypalButtonParams'], 'containerId'>
   pixButtonParams?: Omit<InitConfig['pixButtonParams'], 'containerId'>
+  bizumButtonParams?: Omit<InitConfig['bizumButtonParams'], 'containerId'>
 }
 
 @Component({
@@ -81,10 +82,12 @@ export class SolidPaymentComponent implements DoCheck, AfterViewInit, OnDestroy,
   @Input() applePayButtonParams: PaymentElement['applePayButtonParams']
   @Input() paypalButtonParams: PaymentElement['paypalButtonParams']
   @Input() pixButtonParams: PaymentElement['pixButtonParams']
+  @Input() bizumButtonParams: PaymentElement['bizumButtonParams']
   @Input() applePayContainer: HTMLElement | undefined
   @Input() googlePayContainer: HTMLElement | undefined
   @Input() paypalContainer: HTMLElement | undefined
   @Input() pixContainer: HTMLElement | undefined
+  @Input() bizumContainer: HTMLElement | undefined
 
   @Output() mounted = new EventEmitter<MountedMessage>()
   @Output() error = new EventEmitter<ErrorMessage>()
@@ -199,7 +202,8 @@ export class SolidPaymentComponent implements DoCheck, AfterViewInit, OnDestroy,
       applePayButtonParams: this.applePayButtonParams,
       googlePayButtonParams: this.googlePayButtonParams,
       paypalButtonParams: this.paypalButtonParams,
-      pixButtonParams: this.pixButtonParams
+      pixButtonParams: this.pixButtonParams,
+      bizumButtonParams: this.bizumButtonParams
     }
 
     this.appendIframeParams(config)
@@ -207,6 +211,7 @@ export class SolidPaymentComponent implements DoCheck, AfterViewInit, OnDestroy,
     this.appendPayButtonParams(config, 'applePayButtonParams', this.applePayContainer)
     this.appendPayButtonParams(config, 'paypalButtonParams', this.paypalContainer)
     this.appendPayButtonParams(config, 'pixButtonParams', this.pixContainer)
+    this.appendPayButtonParams(config, 'bizumButtonParams', this.bizumContainer)
 
     return {
       config,
@@ -224,7 +229,7 @@ export class SolidPaymentComponent implements DoCheck, AfterViewInit, OnDestroy,
     }
   }
 
-  private appendPayButtonParams<T extends 'googlePayButtonParams' | 'applePayButtonParams' | 'paypalButtonParams' | 'pixButtonParams'>(
+  private appendPayButtonParams<T extends 'googlePayButtonParams' | 'applePayButtonParams' | 'paypalButtonParams' | 'pixButtonParams' | 'bizumButtonParams'>(
     config: InitConfig,
     key: T,
     container: HTMLElement | undefined

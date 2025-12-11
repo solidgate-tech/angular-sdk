@@ -1,3 +1,7 @@
+**1.22.0**
+
+Added `bizumButtonParams` and `bizumContainer` to the `Payment` component input properties to allow to enable and configure the Bizum
+
 **1.21.0**
 
 Added `pixButtonParams` and `pixContainer` to the `Payment` component input properties to allow to enable and configure the Pix button.
