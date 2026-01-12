@@ -36,7 +36,7 @@ Check our
 Run the following command in your Angular project:
 
 ```
-npm i @solidagate/angular-sdk
+npm i @solidgate/angular-sdk
 ```
 
 <br>
@@ -45,7 +45,10 @@ npm i @solidagate/angular-sdk
 
 ### Payment form
 
-Add SolidPaymentModule to your feature (or app module)
+#### Module Setup
+
+Add `SolidPaymentModule` to your feature (or app module):
+
 ```typescript
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
@@ -67,69 +70,100 @@ import { AppComponent } from './app.component';
 export class AppModule { }
 ```
 
-Render a component
+#### Basic Usage
 
-Component inputs and outputs are described in the docs
-
-https://docs.solidgate.com/payments/integrate/payment-form/create-your-payment-form/
-
-```angular2html
-<ngx-solid-payment
-    [merchantData]="merchantData"
-    [googlePayButtonParams]="googlePayParams"
-    (mounted)="log($event)"
-    (interaction)="log($event)"
-    (customStylesAppended)="log($event)"
-    width="50%"
-></ngx-solid-payment>
-```
-
-In order to render google/apple button in custom container pass link to container element
-
-```angular2html
-<ngx-solid-payment
-    [merchantData]="merchantData"
-    [googlePayContainer]="googlePay"
-    [applePayContainer]="applePay"
-    [paypalContainer]="paypalButton"
-></ngx-solid-payment>
-<div #googleButton></div>
-<div #appleButton></div>
-<div #paypalButton></div>
-```
-
-To use your own submit flow disable form button trough formParams in your component
+To render a payment form component:
 
 ```typescript
-import {InitConfig} from '@solidgate/angular-sdk'
+import { Component } from '@angular/core';
+import { InitConfig, SdkMessage, MessageType, ClientSdkInstance } from '@solidgate/angular-sdk';
 
+@Component({
+  selector: 'app-payment',
+  template: `
+    <ngx-solid-payment
+      [merchantData]="merchantData"
+      (mounted)="onMounted($event)"
+      (success)="onSuccess($event)"
+      (fail)="onFail($event)"
+      (error)="onError($event)"
+    ></ngx-solid-payment>
+  `
+})
+export class PaymentComponent {
+  // For merchantData structure and generation, see:
+  // https://docs.solidgate.com/payments/integrate/payment-form/create-your-payment-form/
+  merchantData: InitConfig['merchantData'] = {
+    merchant: 'YOUR_MERCHANT_ID',
+    signature: 'YOUR_SIGNATURE',
+    paymentIntent: 'YOUR_PAYMENT_INTENT'
+  };
+
+  // For complete list of callbacks and their usage, see:
+  // https://docs.solidgate.com/payments/integrate/payment-form/create-your-payment-form/
+  onMounted(event: SdkMessage[MessageType.Mounted]): void {}
+  onSuccess(event: SdkMessage[MessageType.Success]): void {}
+  onFail(event: SdkMessage[MessageType.Fail]): void {}
+  onError(event: SdkMessage[MessageType.Error]): void {}
+}
+```
+
+For detailed information about `merchantData` structure, available callbacks, configuration options, and mobile responsiveness, refer to the [Payment guide](https://docs.solidgate.com/payments/integrate/payment-form/create-your-payment-form/).
+
+#### Custom Container for Payment Buttons
+
+To render Google Pay, Apple Pay, or PayPal buttons in custom containers:
+
+```angular2html
+<ngx-solid-payment
+  [merchantData]="merchantData"
+  [googlePayContainer]="googlePayContainer"
+  [applePayContainer]="applePayContainer"
+  [paypalContainer]="paypalContainer"
+></ngx-solid-payment>
+
+<div #googlePayContainer></div>
+<div #applePayContainer></div>
+<div #paypalContainer></div>
+```
+
+#### Custom Submit Flow
+
+To use your own submit button, disable the form button through `formParams`:
+
+```typescript
 formParams: InitConfig['formParams'] = {
   allowSubmit: false
 }
 ```
 
-Then subscribe to sdk instance and use `submit` method when you need it
+Then subscribe to the SDK instance and use the `submit` method:
 
 ```angular2html
 <ngx-solid-payment
   [merchantData]="merchantData"
   [formParams]="formParams"
   (readyPaymentInstance)="sdkInstance = $event"
+  (interaction)="isFormValid = $event.isValid"
 ></ngx-solid-payment>
 
 <button 
-  *ngIf="!!sdkInstance" 
+  *ngIf="sdkInstance" 
   (click)="sdkInstance?.submit()"
+  [disabled]="!isFormValid"
 >
-  Submit
+  Submit Payment
 </button>
 ```
 
-If you need current validation state use `iteraction` event and cache it
+For complete information about available callbacks, configuration options, and mobile responsiveness, refer to the [Payment guide](https://docs.solidgate.com/payments/integrate/payment-form/create-your-payment-form/).
 
 ### Resign form
 
-Add SolidResignModule to your feature (or app module)
+#### Module Setup
+
+Add `SolidResignModule` to your feature (or app module):
+
 ```typescript
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
@@ -151,46 +185,112 @@ import { AppComponent } from './app.component';
 export class AppModule { }
 ```
 
-Render a component
+#### Basic Usage
 
-Component inputs and outputs are described in the docs
-
-https://docs.solidgate.com/payments/integrate/payment-form/resign-payment-form/
-
-```angular2html
-<ngx-solid-resign
-  [resignRequest]="resignRequest"
-  [appearance]="appearance"
-  [container]="container"
-  [styles]="styles"
-  (mounted)="log($event)"
-  (interaction)="log($event)"
-></ngx-solid-resign>
-```
-
-The handling of the custom submit flow is identical to that of the payment form, with the exception of the event name that passes the SDK instance.
+To render a resign payment form component:
 
 ```typescript
-import {ResignFormConfig} from '@solidgate/angular-sdk'
+import { Component } from '@angular/core';
+import { ResignRequest, SdkMessage, MessageType } from '@solidgate/angular-sdk';
 
-appearance: ResignFormConfig['appearance'] = {
-  allowSubmit: false
+@Component({
+  selector: 'app-resign',
+  template: `
+    <ngx-solid-resign
+      [resignRequest]="resignRequest"
+      (mounted)="onMounted($event)"
+    ></ngx-solid-resign>
+  `
+})
+export class ResignComponent {
+  // For resignRequest structure and generation, see:
+  // https://docs.solidgate.com/payments/integrate/payment-form/resign-payment-form/
+  resignRequest: ResignRequest = {
+    merchant: 'YOUR_MERCHANT_ID',
+    signature: 'YOUR_SIGNATURE',
+    resignIntent: 'YOUR_RESIGN_INTENT'
+  };
+
+  onMounted(event: SdkMessage[MessageType.Mounted]): void {}
+}
+```
+
+For detailed information about `resignRequest` structure, configuration options, and available callbacks, refer to the [Resign payment form documentation](https://docs.solidgate.com/payments/integrate/payment-form/resign-payment-form/).
+
+#### Custom Submit Flow
+
+The handling of the custom submit flow is identical to that of the payment form, with the exception of the event name that passes the SDK instance:
+
+```typescript
+import { ResignFormConfig } from '@solidgate/angular-sdk'
+
+resignFormConfig: ResignFormConfig = {
+  appearance: {
+    allowSubmit: false
+  }
 }
 ```
 
 ```angular2html
 <ngx-solid-resign
   [resignRequest]="resignRequest"
-  [appearance]="appearance"
-  (mounted)="log($event)"
-  (interaction)="log($event)"
+  [appearance]="resignFormConfig.appearance"
+  (interaction)="isFormValid = $event.isValid"
   (readyResignInstance)="sdkInstance = $event"
 ></ngx-solid-resign>
 
 <button 
-  *ngIf="!!sdkInstance" 
+  *ngIf="sdkInstance" 
   (click)="sdkInstance?.submit()"
+  [disabled]="!isFormValid"
 >
   Submit
 </button>
 ```
+
+## Development
+
+To set up the development server:
+
+1. Navigate to the project root directory:
+
+   ```bash
+   cd angular-sdk
+   ```
+
+2. Install dependencies:
+
+   ```bash
+   npm install
+   ```
+
+3. Start the development server:
+
+   ```bash
+   npm run serve:example
+   ```
+
+4. Open your browser and navigate to `http://localhost:4200/`.
+
+## Build
+
+To build the SDK:
+
+1. Navigate to the project root directory:
+
+   ```bash
+   cd angular-sdk
+   ```
+
+2. Run the build command:
+
+   ```bash
+   npm run build:sdk
+   ```
+
+3. The build artifacts will be stored in the `dist/` directory.
+
+---
+
+Looking for help? <a href="https://support.solidgate.com/support/tickets/new" target="_blank">Contact us</a> <br>
+Want to contribute? <a href="https://github.com/solidgate-tech/angular-sdk/pulls" target="_blank">Submit a pull request</a>
