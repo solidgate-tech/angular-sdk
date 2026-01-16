@@ -1,3 +1,7 @@
+**1.24.0**
+
+Added `blikButtonParams` and `blikContainer` to the `Payment` component input properties to allow to enable and configure the Blik
+
 **1.23.0**
 
 Added **pageClose** type to the **InteractionType** enum
