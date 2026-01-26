@@ -36,7 +36,7 @@ Check our
 Run the following command in your Angular project:
 
 ```
-npm i @solidgate/angular-sdk
+npm install --save @solidgate/angular-sdk
 ```
 
 <br>
