@@ -127,6 +127,23 @@ To render Google Pay, Apple Pay, or PayPal buttons in custom containers:
 <div #paypalContainer></div>
 ```
 
+To render Pix, Bizum, Blik, or MB WAY buttons in custom containers:
+
+```angular2html
+<ngx-solid-payment
+  [merchantData]="merchantData"
+  [pixContainer]="pixContainer"
+  [bizumContainer]="bizumContainer"
+  [blikContainer]="blikContainer"
+  [mbwayContainer]="mbwayContainer"
+></ngx-solid-payment>
+
+<div #pixContainer></div>
+<div #bizumContainer></div>
+<div #blikContainer></div>
+<div #mbwayContainer></div>
+```
+
 #### Custom Submit Flow
 
 To use your own submit button, disable the form button through `formParams`:

@@ -1,3 +1,7 @@
+**1.25.0**
+
+Added `mbwayButtonParams` and `mbwayContainer` to the `Payment` component input properties to allow to enable and configure the Mbway
+
 **1.24.0**
 
 Added `blikButtonParams` and `blikContainer` to the `Payment` component input properties to allow to enable and configure the Blik
