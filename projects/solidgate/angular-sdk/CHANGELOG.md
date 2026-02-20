@@ -1,3 +1,7 @@
+**1.27.0**
+
+Added `pixQrButtonParams` and `pixQrContainer` to the `Payment` component input properties to allow to enable and configure the Pix QR
+
 **1.25.0**
 
 Added `mbwayButtonParams` and `mbwayContainer` to the `Payment` component input properties to allow to enable and configure the Mbway
