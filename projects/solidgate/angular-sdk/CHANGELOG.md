@@ -1,3 +1,7 @@
+**1.28.0**
+
+Fixed buttons visibility `enabled` type for **applePayButtonParams**, **paypalButtonParams** and **card** form
+
 **1.27.0**
 
 Added `pixQrButtonParams` and `pixQrContainer` to the `Payment` component input properties to allow to enable and configure the Pix QR
