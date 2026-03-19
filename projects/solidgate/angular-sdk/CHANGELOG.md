@@ -1,3 +1,7 @@
+**1.29.0**
+
+Added **cardHolderPlaceholder** and **cardHolderLabel** to the **formParams** of **InitConfig** interface
+
 **1.28.0**
 
 Fixed buttons visibility `enabled` type for **applePayButtonParams**, **paypalButtonParams** and **card** form
