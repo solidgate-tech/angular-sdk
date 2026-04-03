@@ -1,3 +1,7 @@
+**1.30.0**
+
+Added `cashAppButtonParams` and `cashAppContainer` to the `Payment` component input properties to allow to enable and configure the CashApp
+
 **1.29.0**
 
 Added **cardHolderPlaceholder** and **cardHolderLabel** to the **formParams** of **InitConfig** interface
