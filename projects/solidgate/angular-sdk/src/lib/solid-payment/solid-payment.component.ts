@@ -54,6 +54,7 @@ interface PaymentElement {
   blikButtonParams?: Omit<InitConfig['blikButtonParams'], 'containerId'>
   mbwayButtonParams?: Omit<InitConfig['mbwayButtonParams'], 'containerId'>
   cashAppButtonParams?: Omit<InitConfig['cashAppButtonParams'], 'containerId'>
+  pixAutomaticoButtonParams?: Omit<InitConfig['pixAutomaticoButtonParams'], 'containerId'>
 }
 
 @Component({
@@ -100,6 +101,8 @@ export class SolidPaymentComponent implements DoCheck, AfterViewInit, OnDestroy,
   @Input() mbwayContainer: HTMLElement | undefined
   @Input() pixQrContainer: HTMLElement | undefined
   @Input() cashAppContainer: HTMLElement | undefined
+  @Input() pixAutomaticoButtonParams: PaymentElement['pixAutomaticoButtonParams']
+  @Input() pixAutomaticoContainer: HTMLElement | undefined
 
   @Output() mounted = new EventEmitter<MountedMessage>()
   @Output() error = new EventEmitter<ErrorMessage>()
@@ -219,7 +222,8 @@ export class SolidPaymentComponent implements DoCheck, AfterViewInit, OnDestroy,
       bizumButtonParams: this.bizumButtonParams,
       blikButtonParams: this.blikButtonParams,
       mbwayButtonParams: this.mbwayButtonParams,
-      cashAppButtonParams: this.cashAppButtonParams
+      cashAppButtonParams: this.cashAppButtonParams,
+      pixAutomaticoButtonParams: this.pixAutomaticoButtonParams
     }
 
     this.appendIframeParams(config)
@@ -232,6 +236,7 @@ export class SolidPaymentComponent implements DoCheck, AfterViewInit, OnDestroy,
     this.appendPayButtonParams(config, 'blikButtonParams', this.blikContainer)
     this.appendPayButtonParams(config, 'mbwayButtonParams', this.mbwayContainer)
     this.appendPayButtonParams(config, 'cashAppButtonParams', this.cashAppContainer)
+    this.appendPayButtonParams(config, 'pixAutomaticoButtonParams', this.pixAutomaticoContainer)
 
     return {
       config,
@@ -249,7 +254,7 @@ export class SolidPaymentComponent implements DoCheck, AfterViewInit, OnDestroy,
     }
   }
 
-  private appendPayButtonParams<T extends 'googlePayButtonParams' | 'applePayButtonParams' | 'paypalButtonParams' | 'pixButtonParams' | 'bizumButtonParams' | 'blikButtonParams' | 'mbwayButtonParams' | 'pixQrButtonParams' | 'cashAppButtonParams'>(
+  private appendPayButtonParams<T extends 'googlePayButtonParams' | 'applePayButtonParams' | 'paypalButtonParams' | 'pixButtonParams' | 'bizumButtonParams' | 'blikButtonParams' | 'mbwayButtonParams' | 'pixQrButtonParams' | 'cashAppButtonParams' | 'pixAutomaticoButtonParams'>(
     config: InitConfig,
     key: T,
     container: HTMLElement | undefined

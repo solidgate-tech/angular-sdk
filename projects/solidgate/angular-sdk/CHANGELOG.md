@@ -1,3 +1,7 @@
+**1.31.0**
+
+Added `pixAutomaticoButtonParams` and `pixAutomaticoContainer` to the `SolidPaymentComponent` to allow enabling and configuring Pix Automático
+
 **1.30.0**
 
 Added `cashAppButtonParams` and `cashAppContainer` to the `Payment` component input properties to allow to enable and configure the CashApp
