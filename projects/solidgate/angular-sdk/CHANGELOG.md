@@ -1,3 +1,7 @@
+**1.33.0**
+
+Added `upiButtonParams` input and `upiContainer` input to the `SolidPaymentComponent` to allow enabling and configuring UPI
+
 **1.32.0**
 
 Added **reset mode** support for APM buttons:
