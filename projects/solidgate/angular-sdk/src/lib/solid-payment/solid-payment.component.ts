@@ -56,6 +56,7 @@ interface PaymentElement {
   mbwayButtonParams?: Omit<InitConfig['mbwayButtonParams'], 'containerId'>
   cashAppButtonParams?: Omit<InitConfig['cashAppButtonParams'], 'containerId'>
   pixAutomaticoButtonParams?: Omit<InitConfig['pixAutomaticoButtonParams'], 'containerId'>
+  clickToPayButtonParams?: InitConfig['clickToPayButtonParams']
 }
 
 @Component({
@@ -106,6 +107,7 @@ export class SolidPaymentComponent implements DoCheck, AfterViewInit, OnDestroy,
   @Input() cashAppContainer: HTMLElement | undefined
   @Input() pixAutomaticoButtonParams: PaymentElement['pixAutomaticoButtonParams']
   @Input() pixAutomaticoContainer: HTMLElement | undefined
+  @Input() clickToPayButtonParams: PaymentElement['clickToPayButtonParams']
 
   @Output() mounted = new EventEmitter<MountedMessage>()
   @Output() error = new EventEmitter<ErrorMessage>()
@@ -227,7 +229,8 @@ export class SolidPaymentComponent implements DoCheck, AfterViewInit, OnDestroy,
       blikButtonParams: this.blikButtonParams,
       mbwayButtonParams: this.mbwayButtonParams,
       cashAppButtonParams: this.cashAppButtonParams,
-      pixAutomaticoButtonParams: this.pixAutomaticoButtonParams
+      pixAutomaticoButtonParams: this.pixAutomaticoButtonParams,
+      clickToPayButtonParams: this.clickToPayButtonParams
     }
 
     this.appendIframeParams(config)

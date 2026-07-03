@@ -1,3 +1,7 @@
+**1.34.0**
+
+Added `clickToPayButtonParams` input to the `SolidPaymentComponent` to allow enabling and configuring Click to Pay.
+
 **1.33.0**
 
 Added `upiButtonParams` input and `upiContainer` input to the `SolidPaymentComponent` to allow enabling and configuring UPI
