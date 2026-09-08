@@ -32,6 +32,8 @@ import {
   SubmitMessage,
   SuccessMessage,
   VerifyMessage,
+  WalletCardTypeEventData,
+  WalletCardTypeSideEffect,
 } from "@solidgate/client-sdk-loader"
 
 import '../../boot'
@@ -39,6 +41,11 @@ import '../../boot'
 type ClientSdkEventsProvider = {
   [key in keyof SdkMessage]: EventEmitter<SdkMessage[key]>
 }
+
+export type WalletCardTypeCallback = (
+  data: WalletCardTypeEventData,
+  pauseUntil: (sideEffect: WalletCardTypeSideEffect) => void
+) => void
 
 interface PaymentElement {
   merchantData?: InitConfig['merchantData'] // required
@@ -57,6 +64,7 @@ interface PaymentElement {
   cashAppButtonParams?: Omit<InitConfig['cashAppButtonParams'], 'containerId'>
   pixAutomaticoButtonParams?: Omit<InitConfig['pixAutomaticoButtonParams'], 'containerId'>
   clickToPayButtonParams?: InitConfig['clickToPayButtonParams']
+  walletCardType?: WalletCardTypeCallback
 }
 
 @Component({
@@ -108,6 +116,8 @@ export class SolidPaymentComponent implements DoCheck, AfterViewInit, OnDestroy,
   @Input() pixAutomaticoButtonParams: PaymentElement['pixAutomaticoButtonParams']
   @Input() pixAutomaticoContainer: HTMLElement | undefined
   @Input() clickToPayButtonParams: PaymentElement['clickToPayButtonParams']
+
+  @Input() walletCardType: PaymentElement['walletCardType']
 
   @Output() mounted = new EventEmitter<MountedMessage>()
   @Output() error = new EventEmitter<ErrorMessage>()
@@ -202,6 +212,9 @@ export class SolidPaymentComponent implements DoCheck, AfterViewInit, OnDestroy,
       form.on(MessageType.CustomStylesAppended, e => this.customStylesAppended.emit(e.data))
       form.on(MessageType.Card, (e) => this.card.emit(e.data))
       form.on(MessageType.PaymentDetails, (e) => this.paymentDetails.emit(e.data))
+      form.on('walletCardType', (event, pauseUntil) =>
+        this.walletCardType?.(event.data, pauseUntil)
+      )
 
       this.isListenersConnected = true
     })
