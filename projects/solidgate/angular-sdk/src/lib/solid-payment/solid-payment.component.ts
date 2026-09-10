@@ -21,6 +21,7 @@ import {
   FailMessage,
   InitConfig,
   InteractionMessage,
+  InvoicePreviewMessage,
   MessageType,
   MountedMessage,
   OrderStatusMessage,
@@ -133,6 +134,7 @@ export class SolidPaymentComponent implements DoCheck, AfterViewInit, OnDestroy,
   @Output() readyPaymentInstance = new EventEmitter<ClientSdkInstance>()
   @Output() card = new EventEmitter<CardMessage>()
   @Output() paymentDetails = new EventEmitter<PaymentDetailsMessage>()
+  @Output() invoicePreview = new EventEmitter<InvoicePreviewMessage>()
 
   private isListenersConnected = false
   private form: ClientSdkInstance | null = null
@@ -212,6 +214,7 @@ export class SolidPaymentComponent implements DoCheck, AfterViewInit, OnDestroy,
       form.on(MessageType.CustomStylesAppended, e => this.customStylesAppended.emit(e.data))
       form.on(MessageType.Card, (e) => this.card.emit(e.data))
       form.on(MessageType.PaymentDetails, (e) => this.paymentDetails.emit(e.data))
+      form.on(MessageType.InvoicePreview, (e) => this.invoicePreview.emit(e.data))
       form.on('walletCardType', (event, pauseUntil) =>
         this.walletCardType?.(event.data, pauseUntil)
       )

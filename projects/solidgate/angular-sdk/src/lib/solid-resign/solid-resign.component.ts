@@ -37,7 +37,7 @@ import {
 import '../../boot'
 
 type ClientSdkEventsProvider = {
-  [key in keyof Omit<SdkMessage, "card">]: EventEmitter<SdkMessage[key]>
+  [key in keyof Omit<SdkMessage, "card" | "invoicePreview">]: EventEmitter<SdkMessage[key]>
 }
 
 interface ResignElement {

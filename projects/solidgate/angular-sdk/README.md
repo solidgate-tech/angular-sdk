@@ -177,6 +177,46 @@ Then subscribe to the SDK instance and use the `submit` method:
 
 For complete information about available callbacks, configuration options, and mobile responsiveness, refer to the [Payment guide](https://docs.solidgate.com/payments/integrate/payment-form/create-your-payment-form/).
 
+#### Checkout Updates
+
+Change the checkout line items, discounts or subscription data after the form is mounted with the `updateCheckout` method on the SDK instance.
+
+The invoice preview itself arrives through the `invoicePreview` output. It is sent by the SDK during the form initialization process.
+
+```angular2html
+<ngx-solid-payment
+  [merchantData]="merchantData"
+  (invoicePreview)="onInvoicePreview($event)"
+  (readyPaymentInstance)="sdkInstance = $event"
+></ngx-solid-payment>
+```
+
+```typescript
+import {
+  ClientSdkInstance,
+  InvoicePreviewMessage,
+  UpdateCheckoutConfig
+} from '@solidgate/angular-sdk'
+
+export class AppComponent {
+  sdkInstance: ClientSdkInstance | null = null
+
+  onInvoicePreview(message: InvoicePreviewMessage) {
+    console.log(message.invoicePreview.total, message.invoicePreview.currency)
+  }
+
+  async changeQuantity(quantity: number) {
+    const config: UpdateCheckoutConfig = {
+      lineItems: [{ productPriceId: 'price_id', quantity }]
+    }
+
+    await this.sdkInstance!.updateCheckout(config)
+  }
+}
+```
+
+The `invoicePreview` output is not available on the resign component.
+
 ### Resign form
 
 #### Module Setup
