@@ -1,3 +1,7 @@
+**1.38.0**
+
+Added **last4** to the **card** field of **Card** event
+
 **1.37.0**
 
 Added **dark theme** support for the **MB Way** button:
