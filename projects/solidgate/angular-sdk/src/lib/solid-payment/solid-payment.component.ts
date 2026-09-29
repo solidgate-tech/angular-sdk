@@ -26,6 +26,7 @@ import {
   MountedMessage,
   OrderStatusMessage,
   PaymentDetailsMessage,
+  ProcessingMessage,
   RedirectMessage,
   ResizeMessage,
   SdkLoader,
@@ -130,6 +131,7 @@ export class SolidPaymentComponent implements DoCheck, AfterViewInit, OnDestroy,
   @Output() submit = new EventEmitter<SubmitMessage>()
   @Output() formRedirect = new EventEmitter<RedirectMessage>()
   @Output() verify = new EventEmitter<VerifyMessage>()
+  @Output() processing = new EventEmitter<ProcessingMessage>()
   @Output() customStylesAppended = new EventEmitter<CustomStylesAppendedMessage>()
   @Output() readyPaymentInstance = new EventEmitter<ClientSdkInstance>()
   @Output() card = new EventEmitter<CardMessage>()
@@ -211,6 +213,7 @@ export class SolidPaymentComponent implements DoCheck, AfterViewInit, OnDestroy,
       form.on(MessageType.Submit, e => this.submit.emit(e.data))
       form.on(MessageType.Redirect, e => this.formRedirect.emit(e.data))
       form.on(MessageType.Verify, e => this.verify.emit(e.data))
+      form.on(MessageType.Processing, e => this.processing.emit(e.data))
       form.on(MessageType.CustomStylesAppended, e => this.customStylesAppended.emit(e.data))
       form.on(MessageType.Card, (e) => this.card.emit(e.data))
       form.on(MessageType.PaymentDetails, (e) => this.paymentDetails.emit(e.data))

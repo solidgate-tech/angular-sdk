@@ -1,3 +1,8 @@
+**1.39.0**
+
+Added **processing** event:
+- Added the **processing** output to the **SolidPaymentComponent** and **SolidResignComponent**, fired once per payment when the order first enters the processing status
+
 **1.38.0**
 
 Added **last4** to the **card** field of **Card** event
