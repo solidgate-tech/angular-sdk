@@ -1,3 +1,7 @@
+**1.41.0**
+
+Added `gcashButtonParams` input and `gcashContainer` input to the `SolidPaymentComponent` to allow enabling and configuring GCash
+
 **1.40.0**
 
 Added `klarnaNetworkButtonParams` input and `klarnaNetworkContainer` input to the `SolidPaymentComponent` to allow enabling and configuring Klarna Network
