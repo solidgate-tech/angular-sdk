@@ -65,6 +65,7 @@ interface PaymentElement {
   mbwayButtonParams?: Omit<InitConfig['mbwayButtonParams'], 'containerId'>
   cashAppButtonParams?: Omit<InitConfig['cashAppButtonParams'], 'containerId'>
   pixAutomaticoButtonParams?: Omit<InitConfig['pixAutomaticoButtonParams'], 'containerId'>
+  klarnaNetworkButtonParams?: Omit<InitConfig['klarnaNetworkButtonParams'], 'containerId'>
   clickToPayButtonParams?: InitConfig['clickToPayButtonParams']
   walletCardType?: WalletCardTypeCallback
 }
@@ -117,6 +118,8 @@ export class SolidPaymentComponent implements DoCheck, AfterViewInit, OnDestroy,
   @Input() cashAppContainer: HTMLElement | undefined
   @Input() pixAutomaticoButtonParams: PaymentElement['pixAutomaticoButtonParams']
   @Input() pixAutomaticoContainer: HTMLElement | undefined
+  @Input() klarnaNetworkButtonParams: PaymentElement['klarnaNetworkButtonParams']
+  @Input() klarnaNetworkContainer: HTMLElement | undefined
   @Input() clickToPayButtonParams: PaymentElement['clickToPayButtonParams']
 
   @Input() walletCardType: PaymentElement['walletCardType']
@@ -249,6 +252,7 @@ export class SolidPaymentComponent implements DoCheck, AfterViewInit, OnDestroy,
       mbwayButtonParams: this.mbwayButtonParams,
       cashAppButtonParams: this.cashAppButtonParams,
       pixAutomaticoButtonParams: this.pixAutomaticoButtonParams,
+      klarnaNetworkButtonParams: this.klarnaNetworkButtonParams,
       clickToPayButtonParams: this.clickToPayButtonParams
     }
 
@@ -264,6 +268,7 @@ export class SolidPaymentComponent implements DoCheck, AfterViewInit, OnDestroy,
     this.appendPayButtonParams(config, 'mbwayButtonParams', this.mbwayContainer)
     this.appendPayButtonParams(config, 'cashAppButtonParams', this.cashAppContainer)
     this.appendPayButtonParams(config, 'pixAutomaticoButtonParams', this.pixAutomaticoContainer)
+    this.appendPayButtonParams(config, 'klarnaNetworkButtonParams', this.klarnaNetworkContainer)
 
     return {
       config,
@@ -281,7 +286,7 @@ export class SolidPaymentComponent implements DoCheck, AfterViewInit, OnDestroy,
     }
   }
 
-  private appendPayButtonParams<T extends 'googlePayButtonParams' | 'applePayButtonParams' | 'paypalButtonParams' | 'pixButtonParams' | 'upiButtonParams' | 'bizumButtonParams' | 'blikButtonParams' | 'mbwayButtonParams' | 'pixQrButtonParams' | 'cashAppButtonParams' | 'pixAutomaticoButtonParams'>(
+  private appendPayButtonParams<T extends 'googlePayButtonParams' | 'applePayButtonParams' | 'paypalButtonParams' | 'pixButtonParams' | 'upiButtonParams' | 'bizumButtonParams' | 'blikButtonParams' | 'mbwayButtonParams' | 'pixQrButtonParams' | 'cashAppButtonParams' | 'pixAutomaticoButtonParams' | 'klarnaNetworkButtonParams'>(
     config: InitConfig,
     key: T,
     container: HTMLElement | undefined
