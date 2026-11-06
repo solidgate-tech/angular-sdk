@@ -1,3 +1,7 @@
+**1.42.0**
+
+Added `satispayButtonParams` input and `satispayContainer` input to the `SolidPaymentComponent` to allow enabling and configuring Satispay
+
 **1.41.0**
 
 Added `gcashButtonParams` input and `gcashContainer` input to the `SolidPaymentComponent` to allow enabling and configuring GCash
