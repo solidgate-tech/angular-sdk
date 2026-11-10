@@ -1,3 +1,7 @@
+**1.43.0**
+
+Added `resetEnabled` to `bizumButtonParams` and `mbwayButtonParams` of the `SolidPaymentComponent` inputs by updating `@solidgate/client-sdk-loader` to 1.43.0
+
 **1.42.0**
 
 Added `satispayButtonParams` input and `satispayContainer` input to the `SolidPaymentComponent` to allow enabling and configuring Satispay
