@@ -1,3 +1,7 @@
+**1.44.0**
+
+Added **blik-recurring** to the **PayableEntity** enum, the **entity** field of the **MountedMessage** event and the **name** field of the **InteractionMessage** event by updating `@solidgate/client-sdk-loader` to 1.44.0
+
 **1.43.0**
 
 Added `resetEnabled` to `bizumButtonParams` and `mbwayButtonParams` of the `SolidPaymentComponent` inputs by updating `@solidgate/client-sdk-loader` to 1.43.0
